@@ -1,0 +1,4 @@
+---
+# defaults file for role
+
+nginx_proxy_path: /srv/docker/nginx-proxy

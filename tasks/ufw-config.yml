@@ -1,0 +1,18 @@
+---
+#ufw config for role docker-nextcloud
+
+- name: "ufw allow port 443:tcp - https"
+  become: true
+  ufw:
+    rule: allow
+    port: '443'
+    proto: tcp
+  notify: reload_ufw
+
+- name: "ufw allow port 80:tcp - http"
+  become: true
+  ufw:
+    rule: allow
+    port: '80'
+    proto: tcp
+  notify: reload_ufw

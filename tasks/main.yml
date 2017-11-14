@@ -1,0 +1,70 @@
+---
+#tasks file for role
+
+- name: create folder for nginx-proxy
+  become: true
+  file:
+    path: "{{ nginx_proxy_path }}"
+    state: directory
+    mode: 0755
+    owner: docker
+    group: docker
+  notify: rebuild_containers
+
+- name: Copy .env template
+  become: true
+  template:
+    src: .env
+    dest: "{{ nginx_proxy_path }}/"
+    owner: docker
+    group: docker
+    mode: 0644
+  notify: rebuild_containers
+
+- name: create folder for nginx-proxy proxy-build
+  become: true
+  file:
+    path: "{{ nginx_proxy_path }}/proxy"
+    state: directory
+    mode: 0755
+    owner: docker
+    group: docker
+  notify: rebuild_containers
+
+- name: Copy Dockerfile template
+  become: true
+  template:
+    src: proxy/Dockerfile
+    dest: "{{ nginx_proxy_path }}/proxy/"
+    owner: docker
+    group: docker
+    mode: 0644
+  notify: rebuild_containers
+
+- name: Copy uploadsize.conf template
+  become: true
+  template:
+    src: proxy/uploadsize.conf
+    dest: "{{ nginx_proxy_path }}/proxy/"
+    owner: docker
+    group: docker
+    mode: 0644
+  notify: rebuild_containers
+
+- name: Copy docker-compose.yml template
+  become: true
+  template:
+    src: docker-compose.yml
+    dest: "{{ nginx_proxy_path }}/"
+    owner: docker
+    group: docker
+    mode: 0644
+  notify: rebuild_containers
+
+- name: Create the docker network (nginx-proxy)
+  become: true
+  docker_network:
+    name: "{{ docker.virtual_network_nginx }}"
+  notify: rebuild_containers
+
+- import_tasks: ufw-config.yml
