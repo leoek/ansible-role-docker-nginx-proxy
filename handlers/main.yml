@@ -7,7 +7,8 @@
     project_src: "{{ nginx_proxy_path }}/"
     project_name: "nginx-proxy"
     state: absent
-  listen: rebuild_containers
+    pull: yes
+  listen: rebuild_nginx_proxy_containers
 
 - name: start_containers
   become: true
@@ -16,4 +17,4 @@
     project_name: "nginx-proxy"
     state: present
     pull: yes
-  listen: rebuild_containers
+  listen: rebuild_nginx_proxy_containers

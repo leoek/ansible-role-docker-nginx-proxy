@@ -9,7 +9,7 @@
     mode: 0755
     owner: docker
     group: docker
-  notify: rebuild_containers
+  notify: rebuild_nginx_proxy_containers
 
 - name: Copy .env template
   become: true
@@ -19,7 +19,7 @@
     owner: docker
     group: docker
     mode: 0644
-  notify: rebuild_containers
+  notify: rebuild_nginx_proxy_containers
 
 - name: create folder for nginx-proxy proxy-build
   become: true
@@ -29,7 +29,7 @@
     mode: 0755
     owner: docker
     group: docker
-  notify: rebuild_containers
+  notify: rebuild_nginx_proxy_containers
 
 - name: Copy Dockerfile template
   become: true
@@ -39,7 +39,7 @@
     owner: docker
     group: docker
     mode: 0644
-  notify: rebuild_containers
+  notify: rebuild_nginx_proxy_containers
 
 - name: Copy uploadsize.conf template
   become: true
@@ -49,7 +49,7 @@
     owner: docker
     group: docker
     mode: 0644
-  notify: rebuild_containers
+  notify: rebuild_nginx_proxy_containers
 
 - name: Copy docker-compose.yml template
   become: true
@@ -59,12 +59,12 @@
     owner: docker
     group: docker
     mode: 0644
-  notify: rebuild_containers
+  notify: rebuild_nginx_proxy_containers
 
 - name: Create the docker network (nginx-proxy)
   become: true
   docker_network:
     name: "{{ docker.virtual_network_nginx }}"
-  notify: rebuild_containers
+  notify: rebuild_nginx_proxy_containers
 
 - import_tasks: ufw-config.yml
