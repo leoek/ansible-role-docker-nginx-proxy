@@ -2,6 +2,7 @@ version: '2'
 services:
   proxy:
     build: ./proxy
+    container_name: nginx_proxy_jwilder
     restart: always
     environment:
       - DEFAULT_HOST=${DOMAIN}
@@ -20,7 +21,8 @@ services:
       - proxy-tier
 
   letsencrypt-companion:
-    image: jrcs/letsencrypt-nginx-proxy-companion
+    image: jrcs/letsencrypt-nginx-proxy-companion:stable
+    container_name: nginx_proxy_letsencrypt
     restart: always
     volumes:
       - certs:/etc/nginx/certs
